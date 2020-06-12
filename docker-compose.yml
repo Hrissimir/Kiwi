@@ -16,26 +16,28 @@ services:
             MYSQL_DATABASE: kiwi
             MYSQL_USER: kiwi
             MYSQL_PASSWORD: kiwi
-            MYSQL_CHARSET: utf8mb4
-            MYSQL_COLLATION: utf8mb4_unicode_ci
+            MYSQL_CHARSET: cp1251
+            MYSQL_COLLATION: cp1251_general_ci
 
     web:
         container_name: kiwi_web
         depends_on:
             - db
         restart: always
-        image: kiwitcms/kiwi:latest
+        image: kiwitcms/kiwi:hed
         ports:
             - 80:8080
             - 443:8443
         volumes:
             - uploads:/Kiwi/uploads:Z
+            - ./local_settings.py:/venv/lib64/python3.6/site-packages/tcms/settings/local_settings.py
         environment:
             KIWI_DB_HOST: db
             KIWI_DB_PORT: 3306
             KIWI_DB_NAME: kiwi
             KIWI_DB_USER: kiwi
             KIWI_DB_PASSWORD: kiwi
+            KIWI_DONT_ENFORCE_HTTPS: "true"
 
 volumes:
     db_data:
